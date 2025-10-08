@@ -10,6 +10,7 @@
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="sample">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
@@ -60,22 +61,18 @@
     window.addEventListener('load', function(ev) {
       console.log('Loading Flutter app...');
       
-      // Download main.dart.js
-      _flutter.loader.load({
-        config: {
-          renderer: "html"  // Use HTML renderer for better compatibility
-        },
-        onEntrypointLoaded: function(engineInitializer) {
+      // Set the build config that Flutter expects
+      _flutter.loader.loadEntrypoint({
+        entrypointUrl: "main.dart.js",
+        onEntrypointLoaded: async function(engineInitializer) {
           console.log('Entrypoint loaded, initializing engine...');
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            console.log('Engine initialized, running app...');
-            // Hide loading indicator
-            document.getElementById('loading').style.display = 'none';
-            appRunner.runApp();
-          }).catch(function(error) {
-            console.error('Failed to initialize engine:', error);
-            document.getElementById('loading').innerHTML = '<div style="color: red;">Error loading app: ' + error + '</div>';
+          let appRunner = await engineInitializer.initializeEngine({
+            renderer: "html"
           });
+          console.log('Engine initialized, running app...');
+          // Hide loading indicator
+          document.getElementById('loading').style.display = 'none';
+          await appRunner.runApp();
         }
       });
     });
