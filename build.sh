@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+# Flutter Web build script for Vercel
 echo "Downloading Flutter SDK..."
 curl -fsSL https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.5-stable.tar.xz -o flutter.tar.xz
 
