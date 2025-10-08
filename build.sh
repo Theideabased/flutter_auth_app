@@ -31,5 +31,5 @@ fi
 echo "Getting dependencies..."
 flutter pub get
 
-echo "Building web app..."
-flutter build web --release --verbose
+echo "Building web app with HTML renderer..."
+flutter build web --release --web-renderer html
