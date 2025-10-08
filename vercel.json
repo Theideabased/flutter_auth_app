@@ -1,6 +1,5 @@
 {
-  "buildCommand": "if cd flutter && git pull && cd .. || git clone https://github.com/flutter/flutter.git; then export PATH=\"$PATH:`pwd`/flutter/bin\" && flutter config --enable-web && flutter pub get && flutter build web --release; fi",
+  "buildCommand": "bash build.sh",
   "outputDirectory": "build/web",
-  "framework": null,
-  "installCommand": "echo 'Installing Flutter in build environment...'"
+  "installCommand": "echo 'Flutter will be installed during build'"
 }

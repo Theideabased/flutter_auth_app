@@ -3,32 +3,42 @@
 # Vercel build script for Flutter Web
 set -e
 
-echo "Installing Flutter..."
+echo "=========================================="
+echo "Starting Flutter Web Build"
+echo "=========================================="
 
 # Check if Flutter is already cached
-if [ ! -d "flutter" ]; then
-  echo "Cloning Flutter SDK..."
-  git clone https://github.com/flutter/flutter.git -b stable --depth 1
-else
-  echo "Using cached Flutter SDK..."
+if [ -d "flutter" ]; then
+  echo "✓ Flutter found in cache, updating..."
   cd flutter
-  git pull
+  git pull origin stable || echo "Failed to update, continuing with cached version"
   cd ..
+else
+  echo "✓ Cloning Flutter SDK (stable branch)..."
+  git clone https://github.com/flutter/flutter.git -b stable --depth 1
 fi
 
 # Add Flutter to PATH
-export PATH="$PATH:`pwd`/flutter/bin"
+export PATH="$PATH:$PWD/flutter/bin"
 
+echo ""
 echo "Flutter version:"
 flutter --version
 
-echo "Enabling web support..."
-flutter config --enable-web
+echo ""
+echo "✓ Configuring Flutter for web..."
+flutter config --enable-web --no-analytics
 
-echo "Installing dependencies..."
+echo ""
+echo "✓ Installing dependencies..."
 flutter pub get
 
-echo "Building web app..."
-flutter build web --release
+echo ""
+echo "✓ Building Flutter web app (release mode)..."
+flutter build web --release --web-renderer canvaskit
 
-echo "Build complete! Output directory: build/web"
+echo ""
+echo "=========================================="
+echo "✓ Build Complete!"
+echo "=========================================="
+echo "Output directory: build/web"
