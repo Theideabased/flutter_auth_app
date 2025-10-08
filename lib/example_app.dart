@@ -40,7 +40,7 @@ class _ExampleAppState extends State<ExampleApp> {
   Future<void> login() async {
     try {
       if (kIsWeb) {
-        return auth0Web.loginWithRedirect(redirectUrl: 'http://localhost:3000');
+        return auth0Web.loginWithRedirect(redirectUrl: 'https://flutter-auth-app.vercel.app');
       }
 
       var credentials = await auth0
@@ -60,7 +60,7 @@ class _ExampleAppState extends State<ExampleApp> {
   Future<void> logout() async {
     try {
       if (kIsWeb) {
-        await auth0Web.logout(returnToUrl: 'http://localhost:3000');
+        await auth0Web.logout(returnToUrl: 'https://flutter-auth-app.vercel.app');
       } else {
         await auth0
             .webAuthentication(scheme: dotenv.env['AUTH0_CUSTOM_SCHEME'])
