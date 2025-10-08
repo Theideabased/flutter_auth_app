@@ -17,8 +17,19 @@ git config --global --add safe.directory '*'
 echo "Configuring Flutter..."
 flutter config --enable-web --no-analytics
 
+echo "Checking .env file..."
+if [ -f ".env" ]; then
+  echo "✓ .env file found"
+  cat .env
+else
+  echo "✗ .env file not found - creating one..."
+  echo "AUTH0_DOMAIN=dev-r1s7xzqfu3rt2lmr.us.auth0.com" > .env
+  echo "AUTH0_CLIENT_ID=aG1x463yGHmdpoFWF3KAVXNkGxRaX0TJ" >> .env
+  echo "AUTH0_CUSTOM_SCHEME=com.auth0.sample" >> .env
+fi
+
 echo "Getting dependencies..."
 flutter pub get
 
 echo "Building web app..."
-flutter build web --release
+flutter build web --release --verbose
