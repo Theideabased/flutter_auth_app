@@ -1,0 +1,35 @@
+# Ignore build artifacts
+build/
+.dart_tool/
+.packages
+.pub/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Ignore platform-specific code
+android/
+ios/
+macos/
+windows/
+linux/
+
+# Ignore Flutter SDK (will be installed during build)
+flutter/
+
+# Ignore Git
+.git/
+
+# Ignore IDE
+.vscode/
+.idea/
+*.iml
+
+# Keep necessary files
+!.env
+!pubspec.yaml
+!pubspec.lock
+!lib/
+!web/
+!images/
+!vercel.json
+!build.sh

@@ -1,0 +1,41 @@
+runtime: python39
+env: standard
+
+handlers:
+# Serve all static files
+- url: /assets
+  static_dir: build/web/assets
+  secure: always
+
+- url: /canvaskit
+  static_dir: build/web/canvaskit
+  secure: always
+
+- url: /icons
+  static_dir: build/web/icons
+  secure: always
+
+- url: /(.+\.(js|json|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot))
+  static_files: build/web/\1
+  upload: build/web/.*
+  secure: always
+
+# Serve index.html for all other routes (SPA routing)
+- url: /.*
+  static_files: build/web/index.html
+  upload: build/web/index.html
+  secure: always
+
+# Skip files for deployment
+skip_files:
+- ^(.*/)?\.git/.*
+- ^(.*/)?\..*
+- ^(.*/)?.*\.py[co]
+- ^(.*/)?.*/node_modules/.*
+- ^lib/.*
+- ^test/.*
+- ^android/.*
+- ^ios/.*
+- ^macos/.*
+- ^windows/.*
+- ^linux/.*

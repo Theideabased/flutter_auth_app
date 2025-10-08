@@ -1,0 +1,51 @@
+# Ignore Flutter build artifacts
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+
+# Ignore platform-specific folders
+android/
+ios/
+macos/
+windows/
+linux/
+web/
+
+# Ignore test files
+test/
+
+# Ignore IDE files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Ignore Git
+.git/
+.gitignore
+
+# Ignore environment files (keep .env in the image)
+# .env
+
+# Ignore temp files
+*.log
+*.tmp
+*.temp
+
+# Ignore documentation
+*.md
+!README.md
+
+# Ignore deployment scripts
+*.ps1
+*.sh
+*.bat
+
+# Ignore large files
+*.zip
+*.tar.gz
