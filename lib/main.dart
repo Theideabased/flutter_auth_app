@@ -3,9 +3,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'example_app.dart';
 
 void main() async {
-
-   await dotenv.load();
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  await dotenv.load();
 
   runApp(const ExampleApp());
 }
-

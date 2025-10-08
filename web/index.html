@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="sample">
+  <meta name="apple-mobile-web-app-title" content="Flutter Auth0 App">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
@@ -33,6 +33,7 @@
       align-items: center;
       height: 100vh;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      flex-direction: column;
     }
     .spinner {
       border: 4px solid #f3f3f3;
@@ -41,40 +42,66 @@
       width: 40px;
       height: 40px;
       animation: spin 1s linear infinite;
+      margin-bottom: 20px;
     }
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+    .loading-text {
+      color: #666;
+      font-size: 14px;
+    }
   </style>
-
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer></script>
-  <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js" defer></script>
 </head>
 <body>
   <div class="loading" id="loading">
     <div class="spinner"></div>
+    <div class="loading-text">Loading Flutter Auth0 App...</div>
   </div>
   
+  <script src="flutter.js" defer></script>
+  <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
   <script>
     window.addEventListener('load', function(ev) {
-      console.log('Loading Flutter app...');
+      console.log('Window loaded, initializing Flutter...');
       
-      // Set the build config that Flutter expects
-      _flutter.loader.loadEntrypoint({
-        entrypointUrl: "main.dart.js",
-        onEntrypointLoaded: async function(engineInitializer) {
-          console.log('Entrypoint loaded, initializing engine...');
-          let appRunner = await engineInitializer.initializeEngine({
-            renderer: "html"
+      // Wait for flutter.js to load
+      var checkFlutter = setInterval(function() {
+        if (typeof _flutter !== 'undefined') {
+          clearInterval(checkFlutter);
+          console.log('Flutter loader found, loading app...');
+          
+          _flutter.loader.loadEntrypoint({
+            entrypointUrl: "main.dart.js",
+            onEntrypointLoaded: async function(engineInitializer) {
+              console.log('Entrypoint loaded successfully');
+              try {
+                let appRunner = await engineInitializer.initializeEngine({
+                  renderer: "html"
+                });
+                console.log('Engine initialized, running app...');
+                document.getElementById('loading').style.display = 'none';
+                await appRunner.runApp();
+                console.log('App running!');
+              } catch (error) {
+                console.error('Error initializing Flutter:', error);
+                document.getElementById('loading').innerHTML = 
+                  '<div style="color: red; padding: 20px;">Error loading app: ' + error.message + '</div>';
+              }
+            }
           });
-          console.log('Engine initialized, running app...');
-          // Hide loading indicator
-          document.getElementById('loading').style.display = 'none';
-          await appRunner.runApp();
         }
-      });
+      }, 100);
+      
+      // Timeout after 30 seconds
+      setTimeout(function() {
+        if (document.getElementById('loading').style.display !== 'none') {
+          console.error('Timeout loading Flutter');
+          document.getElementById('loading').innerHTML = 
+            '<div style="color: red; padding: 20px;">Timeout loading Flutter. Please refresh the page.</div>';
+        }
+      }, 30000);
     });
   </script>
 </body>
