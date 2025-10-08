@@ -11,6 +11,9 @@ tar xf flutter.tar.xz
 echo "Setting up Flutter..."
 export PATH="$PWD/flutter/bin:$PATH"
 
+# Fix git ownership issue in Vercel environment
+git config --global --add safe.directory '*'
+
 echo "Configuring Flutter..."
 flutter config --enable-web --no-analytics
 
